@@ -1,7 +1,10 @@
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.Scanner;
 
-public class Lembrete implements Contract{
+public class Lembrete {
     static Scanner ler = new Scanner(System.in);
 
     private String nome;
@@ -9,14 +12,29 @@ public class Lembrete implements Contract{
     private String horaInicio;
     private String desccricao;
     private int idLembrete;
+    private Date data;
 
-    public Lembrete(String nome, String dataInicio, String horaInicio) {
+    public Lembrete(String nome, String dataInicio, String horaInicio) throws ParseException {
         this.nome = nome;
         this.dataInicio = dataInicio;
         this.horaInicio = horaInicio;
         idLembrete = Agenda.gerarId();
+        mudaData();
     }
 
+    public static void exibirLembretes(){
+        Agenda.lembretes.sort(Comparator.comparing(Lembrete::getData));
+        for (Lembrete p:Agenda.lembretes) {
+            System.out.println(p);
+        }
+    }
+    public void mudaData() throws ParseException {
+        data = new SimpleDateFormat("dd-MM-yyyy").parse(dataInicio);
+    }
+
+    public Date getData() {
+        return data;
+    }
     public void ExibirData() throws ParseException {}
     public void EdtLembrete(){}
     public void ExcLembrete(){}

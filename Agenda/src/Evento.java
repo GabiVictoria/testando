@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Scanner;
 
-public class Evento implements Contract {
+public class Evento {
     private String nome;
     private String descricao;
     private String dataInicio;
@@ -13,6 +13,7 @@ public class Evento implements Contract {
     private String horaFinal;
     private   int idEvento;
     private Date data;
+
 
     static Scanner ler = new Scanner(System.in);
 
@@ -29,8 +30,20 @@ public class Evento implements Contract {
     public void EdtEvento (){}
     public static void exibirEventos(){
         Agenda.eventos.sort(Comparator.comparing(Evento::getData));
-        System.out.println(Agenda.eventos);
+        for (Evento p:Agenda.eventos) {
+            System.out.println(p);
+        }
     }
+
+    public static void consultaEvento(String consulta){
+        Agenda.eventos.sort(Comparator.comparing(Evento::getData));
+        for (Evento p:Agenda.eventos) {
+          if (Agenda.eventos.contains(consulta)){
+              System.out.println(p);
+          }
+        }
+    }
+
     public void mudaData() throws ParseException {
          data = new SimpleDateFormat("dd-MM-yyyy").parse(dataInicio);
     }
@@ -39,11 +52,16 @@ public class Evento implements Contract {
         return data;
     }
 
+    public String getDataInicio() {
+        return dataInicio;
+    }
+
     public static void removerEvento(){
         System.out.println("Digite o id da ocorrencia");
         int i = ler.nextInt();
         Agenda.eventos.removeIf(n->(n.idEvento==i));
     }
+
 
     @Override
     public String toString() {
